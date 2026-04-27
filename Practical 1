@@ -1,0 +1,29 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    A DB 05H
+    B DB 03H
+    RES DB ?
+.CODE
+MAIN:
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV AL, A
+    MOV BL, B
+
+    ADD AL, BL      ; ADD
+    ; SUB AL, BL    ; SUB
+    ; MUL BL        ; MUL (AX = AL * BL)
+    ; DIV BL        ; DIV (AL = quotient)
+
+    ; AND AL, BL
+    ; OR AL, BL
+    ; XOR AL, BL
+    ; NOT AL
+
+    MOV RES, AL
+
+    MOV AH, 4CH
+    INT 21H
+END MAIN

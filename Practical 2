@@ -1,0 +1,72 @@
+.MODEL SMALL
+.STACK 100H
+.DATA
+    MSG1 DB '1.Hex 2.Ascii 3.BCD: $'
+    MSG2 DB 10,13,'Enter: $'
+    RES  DB 10,13,'Result: $'
+
+.CODE
+MAIN:
+    MOV AX,@DATA
+    MOV DS,AX
+
+    LEA DX,MSG1
+    MOV AH,09H
+    INT 21H
+
+    MOV AH,01H
+    INT 21H
+    MOV BL,AL
+
+    LEA DX,MSG2
+    MOV AH,09H
+    INT 21H
+
+    MOV AH,01H
+    INT 21H
+
+    CMP BL,'1'
+    JE H2B
+    CMP BL,'2'
+    JE A2B
+    CMP BL,'3'
+    JE B2A
+    JMP EXIT
+
+H2B:
+    SUB AL,30H
+    MOV AH,00H
+    MOV BL,0AH
+    DIV BL
+    ADD AL,30H
+    ADD AH,30H
+    LEA DX,RES
+    MOV AH,09H
+    INT 21H
+    MOV DL,AL
+    MOV AH,02H
+    INT 21H
+    MOV DL,AH
+    INT 21H
+    JMP EXIT
+
+A2B:
+    SUB AL,30H
+    ADD AL,30H
+    JMP SHOW
+
+B2A:
+    ADD AL,30H
+
+SHOW:
+    LEA DX,RES
+    MOV AH,09H
+    INT 21H
+    MOV DL,AL
+    MOV AH,02H
+    INT 21H
+
+EXIT:
+    MOV AH,4CH
+    INT 21H
+END MAIN
